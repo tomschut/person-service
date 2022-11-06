@@ -1,0 +1,74 @@
+openapi: 3.0.3
+info:
+  title: Persons API
+  version: 1.0.0
+paths:
+  /v1/person:
+    post:
+      summary: Add a person
+      operationId: addPerson
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Person'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Person'
+        '405':
+          description: Invalid input
+components:
+  schemas:
+    Address:
+      required:
+        - street
+        - houseNumber
+        - zipCode
+        - city
+        - country
+      type: object
+      properties:
+        street:
+          type: string
+          example: Oscar Carrestraat
+        houseNumber:
+          type: string
+          example: 75
+        zipCode:
+          type: string
+          example: 6542VA
+        city:
+          type: string
+          example: Nijmegen
+        country:
+          type: string
+          example: Nederland
+      xml:
+        name: address
+    Person:
+      required:
+        - firstName
+        - lastName
+        - phoneNumber
+        - address
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: tom
+        lastName:
+          type: string
+          example: tom
+        phoneNumber:
+          type: string
+          pattern: \+(9[976]\d|8[987530]\d|6[987]\d|5[90]\d|42\d|3[875]\d|2[98654321]\d|9[8543210]|8[6421]|6[6543210]|5[87654321]|4[987654310]|3[9643210]|2[70]|7|1)\d{1,14}$
+          example: +31612345678
+        address:
+          $ref: '#/components/schemas/Address'

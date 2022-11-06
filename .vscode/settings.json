@@ -1,0 +1,27 @@
+{
+    "prettier.configPath": ".prettierrc",
+    "typescript.format.enable": true,
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "eslint.lintTask.enable": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true,
+      "source.fixAll.eslint": false
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "javascript.preferences.quoteStyle": "single",
+    "typescript.preferences.quoteStyle": "single",
+    "prettier.singleQuote": true,
+    "javascript.preferences.importModuleSpecifier": "relative",
+    "typescript.preferences.importModuleSpecifier": "relative",
+    "atlascode.jira.enabled": false,
+    "atlascode.bitbucket.enabled": true,
+    "editor.formatOnSave": true,
+    "[terraform]": {
+      "editor.defaultFormatter": "hashicorp.terraform",
+      "editor.formatOnSave": true
+    },
+    "aws.telemetry": false
+  }
+  
