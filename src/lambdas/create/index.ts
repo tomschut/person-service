@@ -1,4 +1,5 @@
 import { DynamoDB, PutItemInput } from '@aws-sdk/client-dynamodb';
+import { PublishCommand, SNSClient } from '@aws-sdk/client-sns';
 import { marshall } from '@aws-sdk/util-dynamodb';
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
 import { v4 as uuid } from 'uuid';
@@ -6,12 +7,8 @@ import { v4 as uuid } from 'uuid';
 export async function handler(event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> {
   const { body } = event;
 
-  //checking todo at apigateway
-  if (!body) {
-    return fail('invalid request');
-  }
-
-  const createPersonDto = JSON.parse(body) as CreatePersonV1Dto;
+  // validation is done by openapi in the apigateway, but that's not working yet
+  const createPersonDto = JSON.parse(body!) as CreatePersonV1Dto;
 
   const dynamoClient = new DynamoDB({
     region: process.env.REGION,
@@ -30,6 +27,8 @@ export async function handler(event: APIGatewayProxyEventV2): Promise<APIGateway
   try {
     await dynamoClient.putItem(personItem);
 
+    var sns = new SNSClient({ region: process.env.REGION });
+    await sns.send(new PublishCommand({ Message: `created.${person.id}`, TopicArn: process.env.PERSON_TOPIC_ARN }));
     return {
       statusCode: 200,
       body: JSON.stringify({ person }),
